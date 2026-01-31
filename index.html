@@ -230,26 +230,35 @@
         }
         
         /* Tables */
+        .table-wrapper {
+            overflow-x: auto;
+            margin: 20px 0;
+            border-radius: 8px;
+        }
+        
         table {
             width: 100%;
             border-collapse: collapse;
-            margin: 20px 0;
+            min-width: 500px;
         }
         
         th, td {
             padding: 12px 16px;
             text-align: left;
             border-bottom: 1px solid rgba(255,255,255,0.1);
+            white-space: nowrap;
         }
         
         th {
             background: rgba(59, 130, 246, 0.2);
             color: #f8fafc;
             font-weight: 600;
+            font-size: 14px;
         }
         
         td {
             color: #cbd5e1;
+            font-size: 14px;
         }
         
         tr:hover {
@@ -395,6 +404,36 @@
                 flex-direction: column;
                 gap: 8px;
             }
+            /* Mobile table fixes */
+            .table-wrapper {
+                margin: 16px -16px;
+                padding: 0 16px;
+                border-radius: 0;
+            }
+            table {
+                min-width: 600px;
+            }
+            th, td {
+                padding: 10px 12px;
+                font-size: 13px;
+            }
+            section {
+                padding: 20px 16px;
+            }
+            .card-grid {
+                grid-template-columns: 1fr;
+            }
+            .version-banner {
+                font-size: 14px;
+                padding: 10px 16px;
+            }
+            .highlight {
+                padding: 12px 16px;
+                font-size: 14px;
+            }
+            .strategy-box {
+                padding: 16px;
+            }
         }
     </style>
 </head>
@@ -465,7 +504,7 @@
                 <h2>Competitive Landscape: Top Private Lenders 2025</h2>
                 <p>Analysis of the top private lenders by volume reveals the competitive positioning opportunity for Longhorn Funding.</p>
                 
-                <table>
+                <div class="table-wrapper"><table>
                     <thead>
                         <tr>
                             <th>Rank</th>
@@ -506,7 +545,7 @@
                         </tr>
                         <!-- Note: "Longhorn III Investments LLC" (Dallas) is a DIFFERENT company, not Roland's Longhorn Funding -->
                     </tbody>
-                </table>
+                </table></div>
                 
                 <h3>Competitive Analysis by Segment</h3>
                 
@@ -673,7 +712,7 @@
                 </div>
                 
                 <h3>Lead Sheet Sources</h3>
-                <table>
+                <div class="table-wrapper"><table>
                     <thead>
                         <tr>
                             <th>Source</th>
@@ -708,7 +747,7 @@
                             <td>B2B networking</td>
                         </tr>
                     </tbody>
-                </table>
+                </table></div>
             </section>
             
             <!-- Underwriting Automation -->
@@ -778,7 +817,7 @@
                 </div>
                 
                 <h3>Data Sources for Automation</h3>
-                <table>
+                <div class="table-wrapper"><table>
                     <thead>
                         <tr>
                             <th>Check Type</th>
@@ -825,7 +864,7 @@
                             <td>$5-25/search</td>
                         </tr>
                     </tbody>
-                </table>
+                </table></div>
             </section>
             
             <!-- Social Media Strategy -->
@@ -870,7 +909,7 @@
                 </div>
                 
                 <h3>Content Calendar Framework</h3>
-                <table>
+                <div class="table-wrapper"><table>
                     <thead>
                         <tr>
                             <th>Day</th>
@@ -911,7 +950,7 @@
                             <td>Shoutout to broker partners, relationship posts</td>
                         </tr>
                     </tbody>
-                </table>
+                </table></div>
             </section>
             
             <!-- Action Items -->
