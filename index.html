@@ -1,0 +1,986 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Longhorn Funding - Strategic Intelligence Report</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #1e40af;
+            --primary-light: #3b82f6;
+            --accent: #f97316;
+            --dark: #0f172a;
+            --gray: #64748b;
+            --light: #f8fafc;
+            --success: #10b981;
+            --warning: #f59e0b;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+            color: #e2e8f0;
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+        
+        /* Password Screen */
+        #password-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+        }
+        
+        .password-box {
+            background: rgba(30, 41, 59, 0.8);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 16px;
+            padding: 48px;
+            text-align: center;
+            max-width: 400px;
+            width: 90%;
+        }
+        
+        .password-box h2 {
+            color: #f8fafc;
+            margin-bottom: 8px;
+            font-size: 24px;
+        }
+        
+        .password-box p {
+            color: #94a3b8;
+            margin-bottom: 24px;
+            font-size: 14px;
+        }
+        
+        .password-box input {
+            width: 100%;
+            padding: 14px 18px;
+            border: 2px solid rgba(255,255,255,0.1);
+            border-radius: 8px;
+            background: rgba(15, 23, 42, 0.6);
+            color: #f8fafc;
+            font-size: 16px;
+            margin-bottom: 16px;
+            transition: border-color 0.3s;
+        }
+        
+        .password-box input:focus {
+            outline: none;
+            border-color: var(--primary-light);
+        }
+        
+        .password-box button {
+            width: 100%;
+            padding: 14px 24px;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
+            border: none;
+            border-radius: 8px;
+            color: white;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        
+        .password-box button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(59, 130, 246, 0.3);
+        }
+        
+        .error-msg {
+            color: #ef4444;
+            font-size: 14px;
+            margin-top: 12px;
+            display: none;
+        }
+        
+        /* Main Content */
+        #main-content {
+            display: none;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 24px;
+        }
+        
+        /* Header */
+        header {
+            text-align: center;
+            padding: 60px 0 40px;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            margin-bottom: 48px;
+        }
+        
+        .logo-section {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+        
+        .longhorn-icon {
+            font-size: 48px;
+        }
+        
+        header h1 {
+            font-size: 42px;
+            font-weight: 700;
+            background: linear-gradient(135deg, #f8fafc 0%, #94a3b8 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 8px;
+        }
+        
+        .tagline {
+            font-size: 18px;
+            color: var(--accent);
+            font-weight: 500;
+        }
+        
+        .report-meta {
+            display: flex;
+            justify-content: center;
+            gap: 32px;
+            margin-top: 24px;
+            font-size: 14px;
+            color: #64748b;
+        }
+        
+        .report-meta span {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        /* Section Styles */
+        section {
+            background: rgba(30, 41, 59, 0.5);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 16px;
+            padding: 32px;
+            margin-bottom: 32px;
+        }
+        
+        section h2 {
+            font-size: 24px;
+            color: #f8fafc;
+            margin-bottom: 24px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        
+        section h2::before {
+            content: '';
+            width: 4px;
+            height: 24px;
+            background: var(--accent);
+            border-radius: 2px;
+        }
+        
+        h3 {
+            font-size: 18px;
+            color: #e2e8f0;
+            margin: 24px 0 16px;
+        }
+        
+        /* Company Profile Card */
+        .profile-card {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 32px;
+        }
+        
+        @media (max-width: 768px) {
+            .profile-card {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        .profile-item {
+            padding: 16px;
+            background: rgba(15, 23, 42, 0.5);
+            border-radius: 12px;
+        }
+        
+        .profile-item label {
+            display: block;
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: #64748b;
+            margin-bottom: 8px;
+        }
+        
+        .profile-item .value {
+            font-size: 18px;
+            color: #f8fafc;
+            font-weight: 500;
+        }
+        
+        .profile-item .value a {
+            color: var(--primary-light);
+            text-decoration: none;
+        }
+        
+        /* Stats Grid */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 16px;
+            margin-top: 24px;
+        }
+        
+        @media (max-width: 768px) {
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+        
+        .stat-card {
+            background: linear-gradient(135deg, rgba(30, 64, 175, 0.3) 0%, rgba(59, 130, 246, 0.1) 100%);
+            border: 1px solid rgba(59, 130, 246, 0.3);
+            border-radius: 12px;
+            padding: 20px;
+            text-align: center;
+        }
+        
+        .stat-card .number {
+            font-size: 32px;
+            font-weight: 700;
+            color: var(--primary-light);
+        }
+        
+        .stat-card .label {
+            font-size: 13px;
+            color: #94a3b8;
+            margin-top: 4px;
+        }
+        
+        /* Loan Products */
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 16px;
+        }
+        
+        @media (max-width: 768px) {
+            .products-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+        
+        .product-tag {
+            background: rgba(249, 115, 22, 0.15);
+            border: 1px solid rgba(249, 115, 22, 0.4);
+            color: var(--accent);
+            padding: 12px 16px;
+            border-radius: 8px;
+            text-align: center;
+            font-weight: 500;
+        }
+        
+        /* Market Analysis */
+        .market-insight {
+            background: rgba(16, 185, 129, 0.1);
+            border-left: 4px solid var(--success);
+            padding: 20px 24px;
+            border-radius: 0 12px 12px 0;
+            margin: 16px 0;
+        }
+        
+        .market-insight strong {
+            color: var(--success);
+        }
+        
+        /* Competitor Table */
+        .competitor-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 16px;
+        }
+        
+        .competitor-table th,
+        .competitor-table td {
+            padding: 16px;
+            text-align: left;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+        
+        .competitor-table th {
+            background: rgba(15, 23, 42, 0.5);
+            color: #94a3b8;
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        .competitor-table td {
+            color: #e2e8f0;
+        }
+        
+        .competitor-table tr:hover td {
+            background: rgba(59, 130, 246, 0.05);
+        }
+        
+        /* AI Tasks */
+        .task-card {
+            background: rgba(15, 23, 42, 0.5);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 12px;
+            padding: 24px;
+            margin-bottom: 16px;
+            transition: transform 0.2s, border-color 0.2s;
+        }
+        
+        .task-card:hover {
+            transform: translateY(-2px);
+            border-color: var(--primary-light);
+        }
+        
+        .task-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 12px;
+        }
+        
+        .task-icon {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+        }
+        
+        .task-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: #f8fafc;
+        }
+        
+        .task-impact {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            margin-left: auto;
+        }
+        
+        .impact-high {
+            background: rgba(239, 68, 68, 0.2);
+            color: #ef4444;
+        }
+        
+        .impact-medium {
+            background: rgba(249, 115, 22, 0.2);
+            color: #f97316;
+        }
+        
+        .task-description {
+            color: #94a3b8;
+            margin-bottom: 16px;
+            line-height: 1.7;
+        }
+        
+        .task-example {
+            background: rgba(30, 64, 175, 0.15);
+            border-radius: 8px;
+            padding: 16px;
+            font-family: 'Monaco', 'Menlo', monospace;
+            font-size: 13px;
+            color: #93c5fd;
+        }
+        
+        /* ROI Section */
+        .roi-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 24px;
+        }
+        
+        @media (max-width: 768px) {
+            .roi-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        .roi-card {
+            background: linear-gradient(135deg, rgba(16, 185, 129, 0.15) 0%, rgba(16, 185, 129, 0.05) 100%);
+            border: 1px solid rgba(16, 185, 129, 0.3);
+            border-radius: 12px;
+            padding: 24px;
+            text-align: center;
+        }
+        
+        .roi-card .metric {
+            font-size: 36px;
+            font-weight: 700;
+            color: var(--success);
+        }
+        
+        .roi-card .description {
+            color: #94a3b8;
+            margin-top: 8px;
+            font-size: 14px;
+        }
+        
+        /* CTA Section */
+        .cta-section {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
+            text-align: center;
+            padding: 48px;
+        }
+        
+        .cta-section h2 {
+            justify-content: center;
+        }
+        
+        .cta-section h2::before {
+            display: none;
+        }
+        
+        .cta-section p {
+            font-size: 18px;
+            margin-bottom: 24px;
+            opacity: 0.9;
+        }
+        
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 40px;
+            color: #64748b;
+            font-size: 14px;
+        }
+        
+        footer a {
+            color: var(--primary-light);
+            text-decoration: none;
+        }
+        
+        /* Lists */
+        ul {
+            list-style: none;
+            padding: 0;
+        }
+        
+        ul li {
+            padding: 8px 0 8px 24px;
+            position: relative;
+        }
+        
+        ul li::before {
+            content: '→';
+            position: absolute;
+            left: 0;
+            color: var(--accent);
+        }
+        
+        /* SWOT */
+        .swot-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+        }
+        
+        @media (max-width: 768px) {
+            .swot-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        .swot-card {
+            padding: 20px;
+            border-radius: 12px;
+        }
+        
+        .swot-card.strengths {
+            background: rgba(16, 185, 129, 0.1);
+            border: 1px solid rgba(16, 185, 129, 0.3);
+        }
+        
+        .swot-card.weaknesses {
+            background: rgba(239, 68, 68, 0.1);
+            border: 1px solid rgba(239, 68, 68, 0.3);
+        }
+        
+        .swot-card.opportunities {
+            background: rgba(59, 130, 246, 0.1);
+            border: 1px solid rgba(59, 130, 246, 0.3);
+        }
+        
+        .swot-card.threats {
+            background: rgba(245, 158, 11, 0.1);
+            border: 1px solid rgba(245, 158, 11, 0.3);
+        }
+        
+        .swot-card h4 {
+            margin-bottom: 12px;
+            font-size: 16px;
+        }
+        
+        .swot-card.strengths h4 { color: var(--success); }
+        .swot-card.weaknesses h4 { color: #ef4444; }
+        .swot-card.opportunities h4 { color: var(--primary-light); }
+        .swot-card.threats h4 { color: var(--warning); }
+    </style>
+</head>
+<body>
+    <!-- Password Protection -->
+    <div id="password-screen">
+        <div class="password-box">
+            <h2>🔒 Confidential Report</h2>
+            <p>Enter the access code to view this strategic intelligence briefing.</p>
+            <input type="password" id="password-input" placeholder="Enter access code" onkeypress="if(event.key==='Enter')checkPassword()">
+            <button onclick="checkPassword()">Access Report</button>
+            <p class="error-msg" id="error-msg">Incorrect access code. Please try again.</p>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div id="main-content">
+        <div class="container">
+            <header>
+                <div class="logo-section">
+                    <span class="longhorn-icon">🤘</span>
+                    <div>
+                        <h1>Longhorn Funding</h1>
+                        <p class="tagline">Strategic Intelligence Report</p>
+                    </div>
+                </div>
+                <div class="report-meta">
+                    <span>📅 January 31, 2026</span>
+                    <span>🎯 Prepared for: Roland Stautz</span>
+                    <span>🤖 By: ClawdChad Intelligence</span>
+                </div>
+            </header>
+
+            <!-- Executive Summary -->
+            <section>
+                <h2>Executive Summary</h2>
+                <p style="font-size: 18px; color: #94a3b8; margin-bottom: 24px;">
+                    Longhorn Funding is a <strong style="color: #f8fafc;">boutique private money lender</strong> based in Austin, Texas, led by founder Roland Stautz. With 10+ years of experience in Texas real estate lending, the company is positioned in the fastest-growing hard money market in the United States. This report identifies <strong style="color: var(--accent);">8 high-impact AI automation opportunities</strong> that can dramatically accelerate growth, reduce operational costs, and expand market reach.
+                </p>
+                
+                <div class="market-insight">
+                    <strong>Key Insight:</strong> The private lending market is projected to reach <strong>$2 trillion in assets by 2025</strong>. Longhorn Funding's strong local reputation and Texas market expertise position it to capture significant share with the right technology investments.
+                </div>
+            </section>
+
+            <!-- Company Profile -->
+            <section>
+                <h2>Company Profile</h2>
+                
+                <div class="profile-card">
+                    <div class="profile-item">
+                        <label>Company Name</label>
+                        <div class="value">Longhorn Funding</div>
+                    </div>
+                    <div class="profile-item">
+                        <label>Founder & Owner</label>
+                        <div class="value">Roland Stautz</div>
+                    </div>
+                    <div class="profile-item">
+                        <label>Founded</label>
+                        <div class="value">2014 (10+ years in business)</div>
+                    </div>
+                    <div class="profile-item">
+                        <label>Headquarters</label>
+                        <div class="value">9705 Burnet Rd, Suite 322<br>Austin, TX 78758</div>
+                    </div>
+                    <div class="profile-item">
+                        <label>Phone</label>
+                        <div class="value">(512) 955-7559</div>
+                    </div>
+                    <div class="profile-item">
+                        <label>Website</label>
+                        <div class="value"><a href="https://longhorn-funding.com" target="_blank">longhorn-funding.com</a></div>
+                    </div>
+                    <div class="profile-item">
+                        <label>X (Twitter)</label>
+                        <div class="value">
+                            <a href="https://x.com/RolandStautz" target="_blank">@RolandStautz</a> (Personal)<br>
+                            <a href="https://x.com/LonghornFunding" target="_blank">@LonghornFunding</a> (Company)
+                        </div>
+                    </div>
+                    <div class="profile-item">
+                        <label>Service Area</label>
+                        <div class="value">Statewide Texas Coverage</div>
+                    </div>
+                </div>
+
+                <h3>Social Media Presence</h3>
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="number">7,335</div>
+                        <div class="label">@RolandStautz Followers</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="number">14.9K</div>
+                        <div class="label">@RolandStautz Posts</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="number">39</div>
+                        <div class="label">@LonghornFunding Followers</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="number">108</div>
+                        <div class="label">@LonghornFunding Posts</div>
+                    </div>
+                </div>
+
+                <h3>Loan Products Offered</h3>
+                <div class="products-grid">
+                    <div class="product-tag">Fix & Flip</div>
+                    <div class="product-tag">Bridge Loans</div>
+                    <div class="product-tag">Commercial</div>
+                    <div class="product-tag">Construction</div>
+                    <div class="product-tag">Land Acquisition</div>
+                    <div class="product-tag">Cash-Out Refi</div>
+                    <div class="product-tag">Rehab</div>
+                    <div class="product-tag">Blanket Loans</div>
+                    <div class="product-tag">Acquisition</div>
+                </div>
+
+                <h3>Brand Reputation</h3>
+                <div class="market-insight">
+                    <strong>Trustpilot Review:</strong> "Roland is a kind hearted soul... he will steer you correctly while making sure the full risk is acknowledged." — This testimonial highlights the <strong>personal, trusted relationship-driven</strong> approach that differentiates Longhorn Funding.
+                </div>
+            </section>
+
+            <!-- Market Analysis -->
+            <section>
+                <h2>Texas Hard Money Market Analysis</h2>
+                
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="number">$2T</div>
+                        <div class="label">Private Lending Market (2025)</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="number">440+</div>
+                        <div class="label">Hard Money Lenders in Texas</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="number">#1</div>
+                        <div class="label">Population Growth State</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="number">9.2%</div>
+                        <div class="label">TX Rental Vacancy Rate (2024)</div>
+                    </div>
+                </div>
+
+                <h3>Top Texas Markets for Hard Money Lending</h3>
+                <ul>
+                    <li><strong>Austin:</strong> Tech-driven growth, strong appreciation, high fix-and-flip activity</li>
+                    <li><strong>Dallas-Fort Worth:</strong> Largest metro, diverse investment opportunities</li>
+                    <li><strong>Houston:</strong> Energy sector recovery, massive population</li>
+                    <li><strong>San Antonio:</strong> Military presence, steady rental demand</li>
+                </ul>
+
+                <h3>Key Competitors</h3>
+                <table class="competitor-table">
+                    <thead>
+                        <tr>
+                            <th>Lender</th>
+                            <th>Headquarters</th>
+                            <th>Founded</th>
+                            <th>Loans Funded</th>
+                            <th>Differentiator</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Longhorn Investments</strong></td>
+                            <td>Dallas, TX</td>
+                            <td>2008</td>
+                            <td>10,000+</td>
+                            <td>Multi-state, title company integration</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Loan Ranger Capital</strong></td>
+                            <td>Austin, TX</td>
+                            <td>2015</td>
+                            <td>N/A</td>
+                            <td>Austin-focused</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Easy Street Capital</strong></td>
+                            <td>Austin, TX</td>
+                            <td>2017</td>
+                            <td>N/A</td>
+                            <td>Digital-first platform</td>
+                        </tr>
+                        <tr>
+                            <td><strong>ABL Funding</strong></td>
+                            <td>Texas (multiple)</td>
+                            <td>2010</td>
+                            <td>N/A</td>
+                            <td>Asset-based focus</td>
+                        </tr>
+                        <tr>
+                            <td><strong style="color: var(--accent);">Longhorn Funding</strong></td>
+                            <td>Austin, TX</td>
+                            <td>2014</td>
+                            <td>N/A</td>
+                            <td>Personal relationships, local expertise</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </section>
+
+            <!-- SWOT Analysis -->
+            <section>
+                <h2>SWOT Analysis</h2>
+                
+                <div class="swot-grid">
+                    <div class="swot-card strengths">
+                        <h4>💪 Strengths</h4>
+                        <ul>
+                            <li>10+ years of lending experience</li>
+                            <li>Strong personal brand (@RolandStautz 7K+ followers)</li>
+                            <li>Personal, relationship-driven approach</li>
+                            <li>Local Austin market expertise</li>
+                            <li>Streamlined approval process</li>
+                            <li>Diverse loan product portfolio</li>
+                        </ul>
+                    </div>
+                    <div class="swot-card weaknesses">
+                        <h4>⚠️ Weaknesses</h4>
+                        <ul>
+                            <li>Company X account underdeveloped (39 followers)</li>
+                            <li>Limited digital marketing presence</li>
+                            <li>No apparent automation infrastructure</li>
+                            <li>Likely manual loan processing</li>
+                            <li>Trustpilot rating at 3.7 (room to improve)</li>
+                        </ul>
+                    </div>
+                    <div class="swot-card opportunities">
+                        <h4>🚀 Opportunities</h4>
+                        <ul>
+                            <li>AI automation for loan processing</li>
+                            <li>Social media growth via automation</li>
+                            <li>Lead generation systems</li>
+                            <li>Content marketing at scale</li>
+                            <li>Expand into adjacent Texas markets</li>
+                            <li>Build online review portfolio</li>
+                        </ul>
+                    </div>
+                    <div class="swot-card threats">
+                        <h4>🔥 Threats</h4>
+                        <ul>
+                            <li>Larger competitors with tech advantages</li>
+                            <li>Rising interest rate environment</li>
+                            <li>Texas rental vacancy at 9.2%</li>
+                            <li>440+ competitors in Texas</li>
+                            <li>Digital-native lenders gaining share</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <!-- AI Automation Opportunities -->
+            <section>
+                <h2>🤖 AI Automation Opportunities</h2>
+                <p style="color: #94a3b8; margin-bottom: 24px;">The following high-impact tasks can be automated using AI assistants like ClawdChad, enabling Longhorn Funding to operate at 10x efficiency with minimal additional headcount.</p>
+
+                <div class="task-card">
+                    <div class="task-header">
+                        <div class="task-icon">📱</div>
+                        <div class="task-title">1. Social Media Content Engine</div>
+                        <span class="task-impact impact-high">HIGH IMPACT</span>
+                    </div>
+                    <p class="task-description">
+                        Automate daily content creation for @LonghornFunding. AI generates educational posts about hard money lending, Texas real estate tips, market updates, and success stories. Schedule 3-5 posts daily to grow from 39 to 5,000+ followers within 6 months.
+                    </p>
+                    <div class="task-example">
+                        Example: "🏠 Texas Tip Tuesday: Before your next fix & flip, get a soil test FIRST. Expansive clay soil in Central TX can add $20K+ to foundation costs. #HardMoney #AustinRealEstate"
+                    </div>
+                </div>
+
+                <div class="task-card">
+                    <div class="task-header">
+                        <div class="task-icon">🔍</div>
+                        <div class="task-title">2. Lead Intelligence & Qualification</div>
+                        <span class="task-impact impact-high">HIGH IMPACT</span>
+                    </div>
+                    <p class="task-description">
+                        AI monitors X, Reddit, and real estate forums for potential borrowers asking about hard money loans in Texas. Automatically identifies and qualifies leads based on loan criteria, property type, and urgency. Generates personalized outreach messages for Roland to review and send.
+                    </p>
+                    <div class="task-example">
+                        Detected Lead: "Need bridge financing for Austin duplex closing in 2 weeks"<br>
+                        AI Response Draft: "Hi [Name], saw your post about the Austin duplex. Longhorn Funding specializes in fast bridge loans — we can close in 3-5 days. Want to chat? (512) 955-7559"
+                    </div>
+                </div>
+
+                <div class="task-card">
+                    <div class="task-header">
+                        <div class="task-icon">📊</div>
+                        <div class="task-title">3. Property Deal Analyzer</div>
+                        <span class="task-impact impact-high">HIGH IMPACT</span>
+                    </div>
+                    <p class="task-description">
+                        AI-powered tool that analyzes potential deals for borrowers. Input property address and purchase price; AI pulls comps, estimates ARV, calculates 70% rule, and generates a professional deal analysis PDF. This adds massive value to borrower relationships and speeds underwriting.
+                    </p>
+                    <div class="task-example">
+                        Input: 123 Main St, Austin TX - $350K purchase<br>
+                        Output: ARV: $520K | 70% Rule Max: $364K | Estimated Rehab: $80K | Recommended LTV: 65% | Risk Score: B+
+                    </div>
+                </div>
+
+                <div class="task-card">
+                    <div class="task-header">
+                        <div class="task-icon">📧</div>
+                        <div class="task-title">4. Automated Email & SMS Nurture Sequences</div>
+                        <span class="task-impact impact-medium">MEDIUM IMPACT</span>
+                    </div>
+                    <p class="task-description">
+                        Build automated follow-up sequences for leads at every stage. New inquiry → 5-email educational series. Past borrower → quarterly check-ins with market updates. Lost deals → re-engagement campaigns when rates drop. All personalized with AI.
+                    </p>
+                    <div class="task-example">
+                        Day 1: "Welcome to Longhorn Funding! Here's how we're different..."<br>
+                        Day 3: "5 Questions to Ask Before Your First Fix & Flip"<br>
+                        Day 7: "Case Study: How We Funded a $400K Flip in 72 Hours"
+                    </div>
+                </div>
+
+                <div class="task-card">
+                    <div class="task-header">
+                        <div class="task-icon">📝</div>
+                        <div class="task-title">5. Document Processing & Loan Intake</div>
+                        <span class="task-impact impact-high">HIGH IMPACT</span>
+                    </div>
+                    <p class="task-description">
+                        AI extracts key data from loan applications, property documents, and borrower financials. Automatically populates term sheets, flags missing documents, and generates pre-qualification letters. Reduces admin time by 70%+.
+                    </p>
+                    <div class="task-example">
+                        Before: 45 min manual data entry per application<br>
+                        After: 5 min AI extraction + review → 40 min saved per deal
+                    </div>
+                </div>
+
+                <div class="task-card">
+                    <div class="task-header">
+                        <div class="task-icon">🎯</div>
+                        <div class="task-title">6. Competitive Intelligence Dashboard</div>
+                        <span class="task-impact impact-medium">MEDIUM IMPACT</span>
+                    </div>
+                    <p class="task-description">
+                        AI continuously monitors competitor activity: rate changes, new products, social media engagement, job postings (hiring = growth signal). Weekly digest delivered every Monday morning with actionable insights.
+                    </p>
+                    <div class="task-example">
+                        ALERT: Easy Street Capital dropped rates by 0.5% this week<br>
+                        ALERT: Loan Ranger Capital hiring 2 loan officers (expansion signal)<br>
+                        OPPORTUNITY: Longhorn Investments has negative review surge — chance to win their clients
+                    </div>
+                </div>
+
+                <div class="task-card">
+                    <div class="task-header">
+                        <div class="task-icon">⭐</div>
+                        <div class="task-title">7. Review & Reputation Management</div>
+                        <span class="task-impact impact-medium">MEDIUM IMPACT</span>
+                    </div>
+                    <p class="task-description">
+                        AI monitors reviews across Google, Yelp, Trustpilot, and BBB. Auto-generates response drafts for all reviews (positive and negative). Triggers review requests to satisfied borrowers at optimal times (loan close + 7 days). Target: 4.5+ rating across all platforms.
+                    </p>
+                    <div class="task-example">
+                        New 5-star review detected on Google → AI drafts: "Thank you, [Name]! It was a pleasure helping you close on [Property Type]. Looking forward to your next deal! 🤘"
+                    </div>
+                </div>
+
+                <div class="task-card">
+                    <div class="task-header">
+                        <div class="task-icon">📰</div>
+                        <div class="task-title">8. Blog & SEO Content Factory</div>
+                        <span class="task-impact impact-medium">MEDIUM IMPACT</span>
+                    </div>
+                    <p class="task-description">
+                        AI generates 4-8 SEO-optimized blog posts per month targeting high-value keywords: "Austin hard money lender," "Texas bridge loan," "fix and flip financing Austin." Each post is researched, written, and optimized for search — driving organic leads 24/7.
+                    </p>
+                    <div class="task-example">
+                        Target Keywords: "Austin hard money lender" (590 searches/mo), "Texas bridge loans" (320 searches/mo), "hard money loan calculator" (2.4K searches/mo)
+                    </div>
+                </div>
+            </section>
+
+            <!-- ROI Projections -->
+            <section>
+                <h2>💰 Projected ROI</h2>
+                <p style="color: #94a3b8; margin-bottom: 24px;">Conservative estimates based on industry benchmarks for AI automation in lending.</p>
+
+                <div class="roi-grid">
+                    <div class="roi-card">
+                        <div class="metric">40+</div>
+                        <div class="description">Hours saved per month on content, admin, and lead management</div>
+                    </div>
+                    <div class="roi-card">
+                        <div class="metric">3-5x</div>
+                        <div class="description">Increase in qualified leads from automated social + SEO</div>
+                    </div>
+                    <div class="roi-card">
+                        <div class="metric">$50K+</div>
+                        <div class="description">Potential annual revenue from automation-driven leads</div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- CTA -->
+            <section class="cta-section">
+                <h2>Ready to 10x Longhorn Funding?</h2>
+                <p>This report was prepared by ClawdChad — an AI assistant built for builders. Let's discuss how to implement these solutions.</p>
+            </section>
+        </div>
+
+        <footer>
+            <p>Confidential Strategic Intelligence Report | Prepared by <a href="https://x.com/ClawdChad" target="_blank">@ClawdChad</a> | January 2026</p>
+            <p style="margin-top: 8px;">Questions? Contact the analyst who prepared this report via X DM.</p>
+        </footer>
+    </div>
+
+    <script>
+        function checkPassword() {
+            const input = document.getElementById('password-input').value;
+            const errorMsg = document.getElementById('error-msg');
+            
+            if (input === 'austin2026') {
+                document.getElementById('password-screen').style.display = 'none';
+                document.getElementById('main-content').style.display = 'block';
+            } else {
+                errorMsg.style.display = 'block';
+                document.getElementById('password-input').value = '';
+                document.getElementById('password-input').focus();
+            }
+        }
+        
+        // Focus on password input on load
+        document.getElementById('password-input').focus();
+    </script>
+</body>
+</html>
